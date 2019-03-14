@@ -45,13 +45,15 @@ instance_template:
       apt:
         preserve_sources_list: true
       package_update: true
-      packages:
-        - nginx
       runcmd:
+        - [ sh, -c, "until ping -c1 www.centos.org &>/dev/null; do :; done" ]
+        - [ sh, -c, "until ping -c1 www.docker.com &>/dev/null; do :; done" ]
+        - [ sh, -c, "until ping -c1 www.google.com &>/dev/null; do :; done" ]
+        - [ sh, -c, "apt install -y nginx" ]
         - [ systemctl, daemon-reload ]
         - [ systemctl, enable,  nginx.service ]
         - [ systemctl, start, --no-block, nginx.service ]
-        - [ sh, -c, "echo $(hostname | cut -d '.' -f 1 ) > /var/www/html/index.html" ]
+        - [ sh, -c, "echo \$(hostname | cut -d '.' -f 1 ) > /var/www/html/index.html" ]
   boot_disk_spec:
     mode: READ_WRITE
     disk_spec:
@@ -80,6 +82,7 @@ EOF
 ```
 
 ```
+cat nginx.yaml
 yc compute instance-group create --file=nginx.yaml
 rm -rf nginx.yaml
 ```
@@ -102,6 +105,12 @@ yc load-balancer network-load-balancer create --name nginx \
 ```
 
 ### Проверим балансировщик
+
+Зайдите в консоль облака в ваш фолдер, далее выберите Сompute и перейдите в раздел "Группы виртуальных машин" и посмотрите на созданную вами группу.
+Далее зайдите в раздел load balancer , посмотрите на созданный балансирощик, нажмите на него - посмотрети что все ВМ в статусе Healthy
+
+Команды ниже сделают 30 HTTP запросов на адрес балансировщика. Веб сервера за балансирощиком ответят своими именами хостов.
+
 ```
 EXTERNAL_IP=$(yc load-balancer network-load-balancer get nginx --format=json | jq .listeners[0].address | tr -d '"')
 
@@ -112,11 +121,15 @@ done
 ```
 
 ### Удалим инфраструктуру
+
+Удалим Балансировщик и целевую группу
 ```
 yc load-balancer network-load-balancer delete --name nginx
 
 yc compute instance-group delete --name nginx
 ```
+
+Удалим Виртуальные машины
 
 ```
 for i in ${!zones[@]}; do

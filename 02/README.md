@@ -3,16 +3,16 @@
 * Зайдите в консоль облака https://console.cloud.yandex.ru и создайте себе фолдер
 * В терминале рабочей станции инициируйте `yc init`
 * Запишите id вашего фолдера, облака и ваш токен, выполнив `yc config list`
-* Скачайте репозиторий с помощью git
+* Скачайте данный репозиторий с помощью git
 ```
-git clone https://github.com/nar3k/yc-automation.git
-cd yc-automation
+git clone https://github.com/nar3k/yc-codefest-2019
+cd yc-codefest-2019
 ```
 
-Переходим в папку `02-03-terraform`
+Переходим в папку `02`
 
 ```
-cd ../02-03-terraform
+cd 02
 ```
 
 Документация к провайдеру terraform находится [тут](https://www.terraform.io/docs/providers/yandex/index.html)
@@ -59,28 +59,39 @@ terraform apply
 ```
 terraform output external_ip_addresses
 ```
+Попробуем подключимтся с созданным инстансам по полученным ip адресам
 
-Попробуем сделать в них curl
+```
+ssh ubuntu@<IP_ADDRESS>
+```
+Попробуем сделать в них curl. Сервера должны отвечать своими именами ( которые получаются при выводе команды terraform output hostnames)
 ```
 for i in $(terraform output external_ip_addresses | tr -d ','); do  
  curl $i;
 done
 ```
 
-###  Добавим новый инстанс в кластер
 
-Создадим план деплоя с новым значением переменной  cluster_size
+###  Смаштабируем кластер
 
-```
-terraform plan -var cluster_size=3 -out new.plan
-```
-Применим новый план
+Размером кластера управляем переменная cluster_size . Изменим ее значения до 6 в файле terraform.tfvars
 
 ```
-terraform apply "new.plan"
+nrkk-osx:02 user$ cat terraform.tfvars
+cluster_size = 6
+```
+Применим изменения.
+
+```
+terraform apply
+```
+Обратите внимание , что terraform просто добавит в кластер 3 узла
+
+```
+Plan: 3 to add, 0 to change, 0 to destroy.
 ```
 
-Дождемся когда новый nginx добавиться в кластер и проверим что он работает
+Дождемся когда новые узлы  добавятся в кластер и проверим что он работает
 
 ```
 for i in $(terraform output external_ip_addresses | tr -d ','); do  
@@ -93,3 +104,6 @@ done
 ```
 terraform destroy
 ```
+
+Напишите yes.
+Зайдите в консоль и убедитесь в вашем фолдере не осталось ресурсов.

@@ -94,15 +94,11 @@ rm -rf nginx.yaml
 ### Подключим балансировщик у группе виртуальных машин
 
 Создадим балансировщик, к которому подключена таргет группа
-```
-TARGET_GROUP_ID=$(yc compute instance-group get --name nginx --format=json | jq .load_balancer_state.target_group_id | tr -d '"')
-
-
-yc load-balancer network-load-balancer create --name nginx \
---region-id ru-central1 \
---target-group target-group-id=${TARGET_GROUP_ID},healthcheck-name=http,healthcheck-http-port=80,healthcheck-http-path=/ \
---listener port=80,external-address=''
-```
+* Зайдите в созданный вами каталог
+* Выберите Load balancer
+* Нажмите создать
+* Добавьте порт 80 для обработчика
+* Добавьте созданную целевую группу с проверкой доступности работающей по HTTP на 80 порту, делающей запросы на url '/'
 
 ### Проверим балансировщик
 

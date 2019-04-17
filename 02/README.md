@@ -5,8 +5,8 @@
 * Запишите id вашего фолдера, облака и ваш токен, выполнив `yc config list`
 * Скачайте данный репозиторий с помощью git
 ```
-git clone https://github.com/nar3k/yc-codefest-2019
-cd yc-codefest-2019
+git clone https://github.com/nar3k/yc-public-tasks.git
+cd yc-public-tasks
 ```
 
 Переходим в папку `02`

@@ -1,6 +1,6 @@
-# Работа с управляемым сервисом PostgreSQL
+# Работа с сервисом Managed Service for PostgreSQL
 
-* Зайдите в консоль Облака https://console.cloud.yandex.ru
+* Зайдите в консоль Яндекс.Облака https://console.cloud.yandex.ru
 * Cоздайте себе каталог, выбрав опцию создания сети по умолчанию
 * Зайдите в созданный каталог
 

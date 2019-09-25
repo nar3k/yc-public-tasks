@@ -24,7 +24,11 @@
 
 * Проверьте, что подключение прошло к master-узлу.
 ```
-select CASE count(*) when 2 then 'MASTER' else 'REPLICA' end from pg_stat_replication;
+select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
+```
+* Посмотрите количество подключенных реплика
+```
+select count(*) from pg_stat_replication;
 ```
 
 ### Проверьте работоспособность репликации в кластере
@@ -43,7 +47,11 @@ insert into test_table values('Строка 1');
 
 * Проверьте, что подключение прошло к узлу-реплике.
 ```
-select CASE count(*) when 2 then 'MASTER' else 'REPLICA' end from pg_stat_replication;
+select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
+```
+* Проверьте состояние репликации
+```
+select status from pg_stat_wal_receiver;
 ```
 
 * Для проверки, что механизм репликации данных работает между зонами доступности облака, выполните запрос к таблице, созданной на предыдущем шаге:

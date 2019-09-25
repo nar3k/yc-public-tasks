@@ -26,7 +26,7 @@
 ```
 select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 ```
-* Посмотрите количество подключенных реплика
+* Посмотрите количество подключенных реплик
 ```
 select count(*) from pg_stat_replication;
 ```

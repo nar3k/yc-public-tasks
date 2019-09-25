@@ -8,7 +8,7 @@
 
 * Перейдите на главную страницу сервиса Managed Service for PostgreSQL
 * Создайте кластер PostgreSQL со следующими параметрами:
-- Класс хоста - s1.nano
+- Класс хоста - s2.micro
 - Хосты - добавьте 1 или два хоста в разных зонах доступности (чтобы суммарно было не менее двух хостов) и укажите необходимость публичного доступа (публичного IP адреса) для них
 - Имя пользователя - test
 - Пароль - test123456
@@ -24,7 +24,11 @@
 
 * Проверьте, что подключение прошло к master-узлу.
 ```
-select CASE count(*) when 2 then 'MASTER' else 'REPLICA' end from pg_stat_replication;
+select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
+```
+* Посмотрите количество подключенных реплик
+```
+select count(*) from pg_stat_replication;
 ```
 
 ### Проверьте работоспособность репликации в кластере
@@ -43,7 +47,11 @@ insert into test_table values('Строка 1');
 
 * Проверьте, что подключение прошло к узлу-реплике.
 ```
-select CASE count(*) when 2 then 'MASTER' else 'REPLICA' end from pg_stat_replication;
+select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
+```
+* Проверьте состояние репликации
+```
+select status from pg_stat_wal_receiver;
 ```
 
 * Для проверки, что механизм репликации данных работает между зонами доступности облака, выполните запрос к таблице, созданной на предыдущем шаге:

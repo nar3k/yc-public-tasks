@@ -12,3 +12,4 @@
 * [Работа с группами виртуальных машин ( instance groups )](instance-groups/)
 * [Анализ Данных в DataLens](datalens/)
 * [Работа с виртуальными машинами](compute-instances/)
+* [Работа с Yandex Translate](translate-python/)

@@ -9,10 +9,10 @@ git clone https://github.com/nar3k/yc-public-tasks.git
 cd yc-public-tasks
 ```
 
-Переходим в папку `02`
+Переходим в папку `terraform`
 
 ```
-cd 02
+cd terraform
 ```
 
 Документация к провайдеру terraform находится [тут](https://www.terraform.io/docs/providers/yandex/index.html)

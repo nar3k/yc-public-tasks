@@ -8,6 +8,7 @@
 
 
 * [Работа с управляемым  PostgreSQL](postgresql/)
+* [Работа с управляемым  Clickhouse](clickhouse/)
 * [Управление облаком через Terraform](terraform/)
 * [Работа с группами виртуальных машин ( Instance Groups )](instance-groups/)
 * [Анализ данных в DataLens](datalens/)

@@ -14,3 +14,4 @@
 * [Работа с виртуальными машинами](compute-instances/)
 * [Работа с Yandex Translate используя Python](translate-python/)
 * [Работа с AI API](aiapi/)
+* [Работа с KMS](kms/)

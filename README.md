@@ -9,8 +9,8 @@
 
 * [Работа с управляемым  PostgreSQL](postgresql/)
 * [Управление облаком через Terraform](terraform/)
-* [Работа с группами виртуальных машин ( instance groups )](instance-groups/)
-* [Анализ Данных в DataLens](datalens/)
+* [Работа с группами виртуальных машин ( Instance Groups )](instance-groups/)
+* [Анализ данных в DataLens](datalens/)
 * [Работа с виртуальными машинами](compute-instances/)
-* [Работа с Yandex Translate используя Python](translate-python/)
+* [Работа с Yandex Translate через Python](translate-python/)
 * [Работа с AI API](aiapi/)

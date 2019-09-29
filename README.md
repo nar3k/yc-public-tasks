@@ -18,3 +18,4 @@
 * [Работа с KMS](kms/)
 * [Работа с YDB](ydb/)
 * [Сетевые Сервисы Яндекс.Облака](vpc/)
+* [Работа с Managed Service for Kubernetes и Container Registry](k8s/)

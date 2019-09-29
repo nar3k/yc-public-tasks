@@ -2,7 +2,7 @@
 
 
 ### Подготовка окружения
-* Зайдите в консоль облака https://console.cloud.yandex.ru и создайте себе Каталог (folder)
+* Зайдите в консоль облака https://console.cloud.yandex.ru и создайте себе Каталог (folder) - - создавать сеть по умолчанию там не требуется
 * В терминале рабочей станции инициируйте `yc init`
 * Выберите созданный вами folder
 
@@ -41,9 +41,9 @@ done
 
 Создадим сервисный аккаунт для работы группы виртуальых машин и дадим его роль администратора в фолдере
 ```
-yc iam service-account create --name ig-sa
-SA_ID=$(yc iam service-account get --name ig-sa --format json | jq .id -r)
 FOLDER_ID=$(yc config get folder-id)
+yc iam service-account create --name ig-sa-${FOLDER_ID}
+SA_ID=$(yc iam service-account get --name ig-sa --format json | jq .id -r)
 yc resource-manager folder add-access-binding --id $FOLDER_ID --role admin --subject serviceAccount:$SA_ID
 ```
 

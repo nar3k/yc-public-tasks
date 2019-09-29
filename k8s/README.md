@@ -273,6 +273,14 @@ yc managed-kubernetes cluster delete --name k8s-demo
 yc iam service-account delete --id $SA_ID
 ```
 
+
+Удалите Container Registry
+```
+IMAGE_ID=$(yc container image list   --format json | jq .[0].id -r)
+yc container image delete --id $IMAGE_ID
+yc container registry delete --name yc-auto-cr
+
+```
 Удалите сеть
 
 ```

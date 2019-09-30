@@ -160,7 +160,7 @@ yc iam service-account delete --name $SA_NAME
 ```
 zones=(a b c)
 
-for i in ${zones[@]}; do
+for i in ${!zones[@]}; do
   echo "Deleting subnet yc-auto-subnet-${zones[$i]}"
   yc vpc subnet delete --name yc-auto-subnet-${zones[$i]}
 done

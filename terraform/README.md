@@ -30,7 +30,7 @@ cd terraform
 cp terraform.tfvars_example terraform.tfvars
 ```
 
-Заполним значения переменных в файле значениями, полученными при выводе 'yc config list'
+Заполним значения переменных в файле значениями, полученными при выводе `yc config list`
 * token  
 * cloud_id
 * folder_id
@@ -77,7 +77,7 @@ done
 Размером кластера управляем переменная `cluster_size`. Изменим ее значения до 6 в файле `terraform.tfvars`
 
 ```
-nrkk-osx:02 user$ cat terraform.tfvars
+$ cat terraform.tfvars
 cluster_size = 6
 ```
 Применим изменения.

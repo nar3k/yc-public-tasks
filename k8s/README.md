@@ -2,9 +2,9 @@
 
 
 ### Подготовка окружения
-* Зайдите в консоль облака https://console.cloud.yandex.ru и создайте себе Каталог (folder) - создавать сеть по умолчанию там не требуется
-* В терминале рабочей станции инициируйте `yc init`
-* Выберите созданный вами folder
+* Зайдите в консоль облака https://console.cloud.yandex.ru и создайте себе каталог (folder) - создавать сеть по умолчанию там не требуется.
+* В терминале рабочей станции инициируйте `yc init`.
+* Выберите созданный вами каталог.
 
 
 ### Создание сети для задания
@@ -48,7 +48,7 @@ yc managed-kubernetes cluster create \
  --service-account-id ${SA_ID} --node-service-account-id ${SA_ID} --async
 
 ```
-Создание мастера занимает около 7 минут - в это время мы создадим Container Registry и загрузим в него докер образ
+Создание мастера занимает около 7 минут - в это время мы создадим Container Registry и загрузим в него Docker образ
 
 Создадим Container Registry
 
@@ -62,7 +62,7 @@ yc container registry create --name yc-auto-cr
 yc container registry configure-docker
 ```
 
-Создадим докер файл
+Создадим Dockerfile
 
 ```
 cat > hello.dockerfile <<EOF
@@ -70,7 +70,7 @@ FROM ubuntu:latest
 CMD echo "Hi, I'm inside"
 EOF
 ```
-Соберем докерфайл и отправим его в Registry
+Соберем образ и загрузим его в Registry
 ```
 REGISTRY_ID=$(yc container registry get --name yc-auto-cr  --format json | jq .id -r)
 docker build . -f hello.dockerfile \
@@ -85,10 +85,9 @@ yc container image list
 ```
 
 
-#### Создание Группы узлов
+#### Создание группы узлов
 
-Перейдите в веб интерфейс фашего фолдера в раздел "Managed Service For Kubernetes". Дожитесь когда созданный ранее 
-кластер будет создан -  перейдет в статус `Ready` и состояние `Healthy`
+Перейдите в веб интерфейс фашего каталога в раздел "Managed Service For Kubernetes". Дождитесь создания кластера - перейдет в статус `Ready` и состояние `Healthy`.
 Теперь создадим группу узлов
 
 ```
@@ -108,30 +107,30 @@ yc managed-kubernetes node-group create \
 
 #### Подключение к кластеру
 
-Создание группы узлов занимает около 3 минут - пока вы ждете, давайте подключимся к кластеру при помощи kubectl
+Создание группы узлов занимает около 3 минут - давайте пока подключимся к кластеру при помощи kubectl.
 
-Подключим аутентификацию в кластер
+Настроим аутентификацию в кластере
 ```
 yc managed-kubernetes cluster get-credentials --external --name k8s-demo
 ```
 
-Дождемся создания группу узлов с помощью kubectl
+Дождемся создания группы узлов с помощью kubectl
 
 ```
 watch kubectl get nodes
 ```
-Когда команда начнет выводить 2 ноды в статусе `Ready`, значит кластер готов для работы. 
-Нажмите для выхода из команды `Ctrl`+`C`
+Когда команда начнет выводить 2 узла в статусе `Ready`, значит кластер готов для работы. 
+Нажмите завершения команды нажмите `Ctrl`+`C`.
 
 
 ### Тестовое приложение
 
 В данном разделе мы установим тестовое приложение, чтобы показать возможности интеграции сущностей Load Balancer и 
-Persistent Volume с Яндекс.Облаком, также интеграцию с Container Registry
+Persistent Volume с Яндекс.Облаком, а также интеграцию с Container Registry.
 
-####  Интеграция Container Registry
+####  Интеграция с Container Registry
 
-Запустите под, который хранит образ в Container Registry
+Запустите pod, который хранит образ в Container Registry
 ```
 kubectl run --attach hello-ubuntu --image cr.yandex/${REGISTRY_ID}/ubuntu:hello
 ```
@@ -143,10 +142,9 @@ $kubectl get po
 $kubectl logs POD_NAME
 
 Hi, I'm inside
-
 ```
 
-Как видите, под скачал образ без необходимости делать аутентификацию на стороне registry.
+Как видите, pod загрузил образ без необходимости делать аутентификацию на стороне registry.
 
 #### Установка Helm v2
 
@@ -176,12 +174,11 @@ kubectl apply -f tiller-sa.yaml
 helm init --service-account tiller
 ```
 
-#### Установите prometheus operator
+#### Установите Prometheus operator
 ```
 helm install --name prom stable/prometheus
 ```
-дождитесь, пока все поды запустятся:
-
+дождитесь, пока все pod-ы не запустятся:
 ```
 $ kubectl get pods -o wide
 
@@ -203,7 +200,7 @@ NAME                                       CAPACITY   ACCESS MODES   RECLAIM POL
 pvc-3a51d0eb-e1f3-11e9-a841-d00d11b3fc30   2Gi        RWO            Delete           Bound    scale/prom-prometheus-alertmanager   yc-network-hdd            25m
 pvc-3a546f8f-e1f3-11e9-a841-d00d11b3fc30   8Gi        RWO            Delete           Bound    scale/prom-prometheus-server         yc-network-hdd            24m
 ```
-посмотрите диски в compute. Первые 2 - это persistent volumes для prometheus
+посмотрите диски в compute. Первые 2 - это persistent volumes для Prometheus
 ```
 $ yc compute disk list
 
@@ -218,19 +215,18 @@ $ yc compute disk list
 +----------------------+--------------------------------------------------+--------------+---------------+--------+----------------------+-------------+
 ```
 
-Узнаем имя ноды, где запущен prometheus-server
+Узнаем имя узла, где запущен prometheus-server
 ```
 $ kubectl get po -o wide | grep prom-prometheus-server
 
 prom-prometheus-server-df7c4757b-cdhj8                2/2     Running   0          6m30s   10.112.128.6   cl1eund4clhgtmm3r7kd-umyt   <none>           <none
 ```
 
-В выводе выше имя ноды это -  `cl1eund4clhgtmm3r7kd-umyt`.
+В выводе выше имя узла это - `cl1eund4clhgtmm3r7kd-umyt`.
 
-Сделайте drain  ноде где живет prometheus-server.
+Сделайте drain узлу, на котором работает prometheus-server.
 ```
 $ kubectl drain NODE_NAME  --ignore-daemonsets
-
 ```
 
 Не обращайте внимания на ошибку типа
@@ -238,52 +234,46 @@ $ kubectl drain NODE_NAME  --ignore-daemonsets
 error: cannot delete DaemonSet-managed Pods (use --ignore-daemonsets to ignore): default/prom-prometheus-node-exporter-5x7gd, kube-system/yc-disk-csi-node-v
 ```
 
-Ппонаблюдайте, как под переназначится на другую ноду и, когда он запустится,
-выполните `yc compute disk list` еще раз - и вы заметите что диск с данными переподключился к другой ноде
+Понаблюдайте, как pod переназначится на другой узел и, когда он запустится,
+выполните `yc compute disk list` еще раз - вы заметите, что диск с данными переподключился к другому узлу.
 ####  Load Balancer
 
-Откройте наружу сервис prometheus:
+Откройте наружу сервис Prometheus:
 ```
 $ kubectl patch svc prom-prometheus-server --type merge -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
-Дождитесь, пока эндпоинт откроется наружу:
+Дождитесь, пока сервис не откроется наружу:
 ```
 $ watch kubectl get svc prom-prometheus-server
 NAME                     TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)        AGE
 prom-prometheus-server   LoadBalancer   10.96.247.101   84.201.136.8   80:31955/TCP   36m
 ```
-Дождитесь, когда EXTERNAL-IP получит IP адрес и перейдите по этому IP адресу в браузере - вы должны попасть на страницу
-сервиса prometheus
-
+Когда в столбце EXTERNAL-IP появится IP адрес, перейдите по нему в браузере - вы должны попасть на страницу сервиса Prometheus.
 
 Зайдите в UI облака и посмотрите, что создался балансировщик нагрузки.
-На текущий помент он показывает, что все ноды кластера находятся в статусе `Healthy`
+На текущий момент он показывает, что все узлы кластера находятся в статусе `Healthy`
 
-Поменяте external traffic policy на Local
+Поменяйте external traffic policy на Local
 ```
 $ kubectl patch svc prom-prometheus-server --type merge -p '{"spec": {"externalTrafficPolicy": "Local"}}'
 ```
 
-дождитесь, пока на балансировщике загорится готовность целевых адресов. Заметьте, что ``HEALTHY загорается адрес только
-той ноды, на которой находится pod prometheus-server
-
-
+дождитесь, пока на балансировщике не отобразится готовность целевых адресов. Заметьте, что `HEALTHY` адрес только
+у того узла, на котором работает pod prometheus-server.
 
 ###  Завершение работы
 
-
-Удалите кластер ( занимает около 1 минуты)
+Удалите кластер (занимает около 1 минуты)
 ```
 yc managed-kubernetes cluster delete --name k8s-demo
 ```
 
 Удалите сервисный аккаунт
-**Внимание: не удаляете сервисный аккаунт до удаления кластера!**
+**Внимание: не удаляйте сервисный аккаунт до удаления кластера!**
 ```
 yc iam service-account delete --id $SA_ID
 ```
-
 
 Удалите Container Registry
 ```
@@ -292,8 +282,8 @@ yc container image delete --id $IMAGE_ID
 yc container registry delete --name yc-auto-cr
 
 ```
-Удалите сеть
 
+Удалите подсети и сеть
 ```
 zones=(a b c)
 

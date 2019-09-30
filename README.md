@@ -23,3 +23,5 @@
 * [Работа с Speechkit SDK](SpeechKit/)
 ## Анализ данных 
 * [Анализ данных в DataLens](datalens/)
+## Serverless
+* [Создание навыка для Алисы](serverless/alice/)

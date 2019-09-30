@@ -17,7 +17,7 @@ yc vpc network create --name yc-auto-network
 zones=(a b c)
 
 for i in ${!zones[@]}; do
-  echo "Creating subnet yc-auto-subnet-$i"
+  echo "Creating subnet yc-auto-subnet-${zones[$i]}"
   yc vpc subnet create --name yc-auto-subnet-${zones[$i]} \
   --zone ru-central1-${zones[$i]} \
   --range 192.168.$i.0/24 \
@@ -161,7 +161,7 @@ yc iam service-account delete --name $SA_NAME
 zones=(a b c)
 
 for i in ${zones[@]}; do
-  echo "Deleting subnet yc-auto-subnet-$i"
+  echo "Deleting subnet yc-auto-subnet-${zones[$i]}"
   yc vpc subnet delete --name yc-auto-subnet-${zones[$i]}
 done
 

@@ -71,6 +71,7 @@ instance_template:
         - [ sh, -c, "until ping -c1 www.docker.com &>/dev/null; do :; done" ]
         - [ sh, -c, "until ping -c1 www.google.com &>/dev/null; do :; done" ]
         - [ sh, -c, "sleep 120" ]
+        - [ sh, -c, "apt update -y "]
         - [ sh, -c, "apt install -y nginx" ]
         - [ systemctl, daemon-reload ]
         - [ systemctl, enable,  nginx.service ]

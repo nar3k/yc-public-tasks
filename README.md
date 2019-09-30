@@ -19,6 +19,7 @@
 * [Работа с Managed Service for Kubernetes и Container Registry](k8s/)
 ## Задания по работе с ML-сервисами
 * [Работа с Yandex Translate через Python](translate-python/)
-* [Работа с AI API](aiapi/)
+* [Работа с AI OCR](OCR/)
+* [Работа с Speechkit SDK](SpeechKit/)
 ## Анализ данных 
 * [Анализ данных в DataLens](datalens/)

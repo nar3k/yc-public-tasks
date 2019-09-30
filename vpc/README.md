@@ -42,7 +42,7 @@ done
 Создадим сервисный аккаунт для работы группы виртуальных машин и дадим ему роль администратора в фолдере
 ```
 FOLDER_ID=$(yc config get folder-id)
-SA_NAME=$ig-sa-$FOLDER_ID
+SA_NAME=ig-sa-$FOLDER_ID
 yc iam service-account create --name $SA_NAME
 SA_ID=$(yc iam service-account get --name $SA_NAME --format json | jq .id -r)
 yc resource-manager folder add-access-binding --id $FOLDER_ID --role admin --subject serviceAccount:$SA_ID

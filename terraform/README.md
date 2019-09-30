@@ -25,7 +25,7 @@ cd terraform
 * `output.tf` - описание вывода
 
 ###  Создадим инфраструктуру
-Скопируем файл terraform.tfvars_example в terraform.tfvars
+Скопируем файл `terraform.tfvars_example` в `terraform.tfvars`
 ```
 cp terraform.tfvars_example terraform.tfvars
 ```

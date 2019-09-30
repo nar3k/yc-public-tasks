@@ -42,8 +42,9 @@ done
 Создадим сервисный аккаунт для работы группы виртуальых машин и дадим его роль администратора в фолдере
 ```
 FOLDER_ID=$(yc config get folder-id)
-yc iam service-account create --name ig-sa
-SA_ID=$(yc iam service-account get --name ig-sa --format json | jq .id -r)
+SA_NAME=$ig-sa-$FOLDER_ID
+yc iam service-account create --name $SA_NAME
+SA_ID=$(yc iam service-account get --name $SA_NAME --format json | jq .id -r)
 yc resource-manager folder add-access-binding --id $FOLDER_ID --role admin --subject serviceAccount:$SA_ID
 ```
 
@@ -150,7 +151,8 @@ yc compute instance-group delete --name nginx
 
 Удалим сервисный аккаунт
 ```
-yc iam service-account delete --name ig-sa
+
+yc iam service-account delete --name $SA_NAME
 ```
 
 Удалим сеть

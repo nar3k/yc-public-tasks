@@ -48,7 +48,7 @@ yc managed-kubernetes cluster create \
  --service-account-id ${SA_ID} --node-service-account-id ${SA_ID} --async
 
 ```
-Создание мастера занимает около 7 минут - в это время мы создадим Container Registry и загрузим в его докер образ
+Создание мастера занимает около 7 минут - в это время мы создадим Container Registry и загрузим в него докер образ
 
 Создадим Container Registry
 
@@ -70,7 +70,7 @@ FROM ubuntu:latest
 CMD echo "Hi, I'm inside"
 EOF
 ```
-Cоберем докерфайл и отправим его в Registry
+Соберем докерфайл и отправим его в Registry
 ```
 REGISTRY_ID=$(yc container registry get --name yc-auto-cr  --format json | jq .id -r)
 docker build . -f hello.dockerfile \
@@ -78,7 +78,7 @@ docker build . -f hello.dockerfile \
 
 docker push cr.yandex/${REGISTRY_ID}/ubuntu:hello
 ```
-Проверим , что в Container Registry появился созданный образ
+Проверим, что в Container Registry появился созданный образ
 
 ```
 yc container image list
@@ -87,15 +87,21 @@ yc container image list
 
 #### Создание Группы узлов
 
-Перейдите в веб интерфейс фашего фолдера в   раздел "Managed Service For Kubernetes" . Дожитесь когда созданный ранее  будет создан -  перейдет в статус Ready и Состояние Healthy
+Перейдите в веб интерфейс фашего фолдера в раздел "Managed Service For Kubernetes". Дожитесь когда созданный ранее 
+кластер будет создан -  перейдет в статус `Ready` и состояние `Healthy`
 Теперь создадим группу узлов
 
 ```
 yc managed-kubernetes node-group create \
- --name k8s-demo-ng --cluster-name k8s-demo \
- --platform-id standard-v2 --public-ip \
- --cores 2 --memory 4 --core-fraction 50 \
- --disk-type network-ssd --fixed-size 2 \
+ --name k8s-demo-ng \
+ --cluster-name k8s-demo \
+ --platform-id standard-v2 \
+ --public-ip \
+ --cores 2 \
+ --memory 4 \
+ --core-fraction 50 \
+ --disk-type network-ssd \
+ --fixed-size 2 \
  --location subnet-name=yc-auto-subnet-0,zone=ru-central1-a \
  --async
  ```
@@ -114,12 +120,14 @@ yc managed-kubernetes cluster get-credentials --external --name k8s-demo
 ```
 watch kubectl get nodes
 ```
-Когда команды начнет выводить 2 ноды в статусе Ready, значит кластер готов для работы. Нажмите для выхода из команды Ctrl+c
+Когда команда начнет выводить 2 ноды в статусе `Ready`, значит кластер готов для работы. 
+Нажмите для выхода из команды `Ctrl`+`C`
 
 
 ### Тестовое приложение
 
-В данном разделе мы установим тестовое приложение, чтобы показать возможности интеграции сущностей Load Balancer и Persistent Volume с Яндекс.Облаком, также интеграцию с Container Registry
+В данном разделе мы установим тестовое приложение, чтобы показать возможности интеграции сущностей Load Balancer и 
+Persistent Volume с Яндекс.Облаком, также интеграцию с Container Registry
 
 ####  Интеграция Container Registry
 
@@ -138,7 +146,7 @@ Hi, I'm inside
 
 ```
 
-Как видите Под скачал образ без необходимости делать аутентификацию на стороне registry.
+Как видите, под скачал образ без необходимости делать аутентификацию на стороне registry.
 
 #### Установка Helm v2
 
@@ -210,16 +218,16 @@ $ yc compute disk list
 +----------------------+--------------------------------------------------+--------------+---------------+--------+----------------------+-------------+
 ```
 
-Узнаем  имя ноды, где запущен prometheus-server
+Узнаем имя ноды, где запущен prometheus-server
 ```
 $ kubectl get po -o wide | grep prom-prometheus-server
 
 prom-prometheus-server-df7c4757b-cdhj8                2/2     Running   0          6m30s   10.112.128.6   cl1eund4clhgtmm3r7kd-umyt   <none>           <none
 ```
 
-В выводе выше имя ноды это -  cl1eund4clhgtmm3r7kd-umyt.
+В выводе выше имя ноды это -  `cl1eund4clhgtmm3r7kd-umyt`.
 
-Cделайте drain  ноде где живет prometheus-server.
+Сделайте drain  ноде где живет prometheus-server.
 ```
 $ kubectl drain NODE_NAME  --ignore-daemonsets
 
@@ -230,8 +238,8 @@ $ kubectl drain NODE_NAME  --ignore-daemonsets
 error: cannot delete DaemonSet-managed Pods (use --ignore-daemonsets to ignore): default/prom-prometheus-node-exporter-5x7gd, kube-system/yc-disk-csi-node-v
 ```
 
-Ппонаблюдайте, как под пеерназначится на другую ноду, и когда он запустится,
-выполните *yc compute disk list* еще раз, и вы заметите что диск с данными переподключился к другой ноде
+Ппонаблюдайте, как под переназначится на другую ноду и, когда он запустится,
+выполните `yc compute disk list` еще раз - и вы заметите что диск с данными переподключился к другой ноде
 ####  Load Balancer
 
 Откройте наружу сервис prometheus:
@@ -239,24 +247,26 @@ error: cannot delete DaemonSet-managed Pods (use --ignore-daemonsets to ignore):
 $ kubectl patch svc prom-prometheus-server --type merge -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
-дождитесь, пока эндпоинт открается наружу :
+Дождитесь, пока эндпоинт откроется наружу:
 ```
 $ watch kubectl get svc prom-prometheus-server
 NAME                     TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)        AGE
 prom-prometheus-server   LoadBalancer   10.96.247.101   84.201.136.8   80:31955/TCP   36m
 ```
-Дождитесь когда EXTERNAL-IP получить IP адрес и перейдите по этому IP адресу в браузере - вы должны попасть на страницу сервиса prometheus
+Дождитесь, когда EXTERNAL-IP получит IP адрес и перейдите по этому IP адресу в браузере - вы должны попасть на страницу
+сервиса prometheus
 
 
-Зайдите в UI облака и посмотрите, что создался балансировщик нагрузки
-На текущий помент он показывает, что все ноды кластера находятся в статусе Healthy
+Зайдите в UI облака и посмотрите, что создался балансировщик нагрузки.
+На текущий помент он показывает, что все ноды кластера находятся в статусе `Healthy`
 
 Поменяте external traffic policy на Local
 ```
 $ kubectl patch svc prom-prometheus-server --type merge -p '{"spec": {"externalTrafficPolicy": "Local"}}'
 ```
 
-дождитесь, пока на балансировщике загорится готовность целевых адресов. Заметьте, что HEALTHY загорается адрес толькотой ноды, на которой находится pod prometheus-server
+дождитесь, пока на балансировщике загорится готовность целевых адресов. Заметьте, что ``HEALTHY загорается адрес только
+той ноды, на которой находится pod prometheus-server
 
 
 
@@ -269,6 +279,7 @@ yc managed-kubernetes cluster delete --name k8s-demo
 ```
 
 Удалите сервисный аккаунт
+**Внимание: не удаляете сервисный аккаунт до удаления кластера!**
 ```
 yc iam service-account delete --id $SA_ID
 ```

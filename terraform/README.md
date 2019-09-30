@@ -30,7 +30,7 @@ cd terraform
 cp terraform.tfvars_example terraform.tfvars
 ```
 
-Заполним значения переменных в файле значениями, полученными при выводе 'yc config list'
+Заполним значения переменных в файле значениями, полученными при выводе `yc config list`
 * token  
 * cloud_id
 * folder_id

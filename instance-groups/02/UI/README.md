@@ -44,7 +44,7 @@
 
         * Введите имя Docker-контейнера: nginx
 
-        * Введите имя используемого Docker-образа: cr.yandex/yc/demo/load-generator:v1
+        * Введите имя используемого Docker-образа: cr.yandex/yc/demo/nginx-hostname:ui
 
     * Нажмите кнопку **Добавить**
 

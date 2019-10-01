@@ -47,7 +47,10 @@ name: demo-net
 
 Для создания подсети в default compute zone (zone не указывается): 
 ```
-yc vpc subnet create --network-name=demo-net --name=demo-subnet-c --zone=ru-central1-c --range=192.168.0.0/24
+yc vpc subnet create --network-name=demo-net \
+                     --name=demo-subnet-c \
+                     --zone=ru-central1-c \
+                     --range=192.168.0.0/24
 ```
 
 Пример вывода команды создания подсети:
@@ -87,7 +90,9 @@ SA_PULLER=$(yc iam service-account get --name=demo-${FOLDER}-sa-puller --format=
 
 Для выдачи прав доступа на Registry:
 ```
-yc resource-manager folder add-access-binding --id=${FOLDER} --subject=serviceAccount:${SA_PULLER} --role=container-registry.images.puller
+yc resource-manager folder add-access-binding --id=${FOLDER} \
+                                              --subject=serviceAccount:${SA_PULLER} \
+                                              --role=container-registry.images.puller
 ```
 
 ### Настройка работы с приватным Registry
@@ -206,7 +211,11 @@ v1: digest: sha256:4670be8cee9e35a37b81e86d529c3c67d99695254361f47ae7b089c201a68
 
 Создание виртуальной машины:
 ```
-yc compute instance create-with-container --container-image=cr.yandex/${REGISTRY}/demo:v1 --container-name=nginx --name=coi --service-account-id=${SA_PULLER} --public-ip
+yc compute instance create-with-container --container-image=cr.yandex/${REGISTRY}/demo:v1 \
+                                          --container-name=nginx \
+                                          --name=coi \
+                                          --service-account-id=${SA_PULLER} \
+                                          --public-ip
 ```
 
 Пример вывода команды создания виртуальной машины:
@@ -320,7 +329,9 @@ v2: digest: sha256:ac649d21790c02dfddfbd50ac7531e7ca9fdf594218335741ab4a8bb64105
 
 Обновление Docker Image на запущенной виртуальной машине:
 ```
-yc compute instance update-container --container-image=cr.yandex/${REGISTRY}/demo:v2 --container-name=nginx --name=coi
+yc compute instance update-container --container-image=cr.yandex/${REGISTRY}/demo:v2 \
+                                     --container-name=nginx \
+                                     --name=coi
 ```
 
 Пример вывода команды обновления Docker Image:

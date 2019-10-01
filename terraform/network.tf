@@ -11,6 +11,6 @@ resource "yandex_vpc_subnet" "subnet" {
 }
 
 locals {
-  subnet_ids = [yandex_vpc_subnet.subnet.*.id]
+  subnet_ids = yandex_vpc_subnet.subnet.*.id
 }
 

@@ -71,6 +71,7 @@ instance_template:
         - [ sh, -c, "until ping -c1 www.docker.com &>/dev/null; do :; done" ]
         - [ sh, -c, "until ping -c1 www.google.com &>/dev/null; do :; done" ]
         - [ sh, -c, "sleep 60" ]
+        - [ sh, -c, "systemd-resolve --flush-cache" ]
         - [ sh, -c, "apt update -y "]
         - [ sh, -c, "apt install -y nginx" ]
         - [ systemctl, daemon-reload ]

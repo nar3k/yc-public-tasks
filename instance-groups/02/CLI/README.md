@@ -65,7 +65,7 @@ wrk -t20 -c20 -d1h --timeout 20s http://$EXTERNAL_IP/sleep
 ```
 Изменим спецификацию группы. Например, уменьшим кол-во ядер (`cores: 2` поменяем на `cores: 1`, и увеличим размер бут-диска)
 ```
-sed -i '' -e "s/cores: 2/cores: 1/g" -e "s/size: 10G/size: 15G/g" specification.yaml
+sed -i '' -e "s/cores: 2/cores: 1/g" -e "s/size: 10G/size: 15G/g" 02/CLI/specification.yaml
 ```
 Обновим группу виртуальных машин
 ```

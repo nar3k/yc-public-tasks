@@ -7,7 +7,7 @@
 * Создание виртуальной машины на базе Container Optimized Image
 * Обновление Docker Image на виртуальной машине без перезапуска
 
-Ожидается на рабочем месте установлен yc command line tool и docker.
+Ожидается на рабочем месте установлен yc command line tool, docker и системные утилиты: jq, curl.
 
 ### Подготовка рабочего окружения
 
@@ -369,32 +369,32 @@ $ curl "http://${PUBLIC_IP}/"
 
 ### Зачистка созданного
 
-Для удаленния виртуальной машины:
+Для удаленния виртуальной машины (внимание, данная команда удаляет все виртуальные машины в текущем folder):
 ```
 $ yc compute instance list --format=json | jq -r .[].id | while read id ; do yc compute instance delete $id ; done
 ```
 
-Для удаления созданных Docker Images:
+Для удаления созданных Docker Images (внимание, данная команда удаляет все Docker Images в текущем folder):
 ```
 $ yc container image list --format=json | jq -r .[].id | while read id ; do yc container image delete $id ; done
 ```
 
-Для удаления приватного Registry:
+Для удаления приватного Registry (внимание, данная команда удаляет все приватные Registry в текущем folder):
 ```
-$ yc container registry delete --name=demo
+$ yc container registry list --format=json | jq -r .[].id | while read id ; do yc container registry delete $id ; done
 ```
 
-Для удаление service account:
+Для удаления service account:
 ```
 $ yc iam service-account delete ${SA_PULLER}
 ```
 
-Для удаления подсетей:
+Для удаления подсетей (внимание, данная команда удаляет все подсети в текущем folder):
 ```
 $ yc vpc subnet list --format=json | jq -r .[].id | while read id ; do yc vpc subnet delete $id ; done
 ```
 
-Для удаления сети:
+Для удаления сети (внимание, данная команда удаляет все сети в текущем folder):
 ```
 $ yc vpc network list --format=json | jq -r .[].id | while read id ; do yc vpc network delete $id ; done
 ```

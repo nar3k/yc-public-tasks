@@ -215,6 +215,7 @@ yc compute instance create-with-container --container-image=cr.yandex/${REGISTRY
                                           --container-name=nginx \
                                           --name=coi \
                                           --service-account-id=${SA_PULLER} \
+                                          --create-boot-disk=size=4,type=network-ssd \
                                           --public-ip
 ```
 

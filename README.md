@@ -15,7 +15,7 @@
 * [Управление облаком через Terraform](terraform/)
 * [Работа с группами виртуальных машин ( Instance Groups )](instance-groups/)
 * [Работа с KMS](kms/)
-* [Сетевые Сервисы Яндекс.Облака](vpc/)
+* [Сетевые Сервисы Яндекс.Облака (VPC, Load Balancer и Anti-DDoS) ](vpc/)
 * [Работа с Managed Service for Kubernetes и Container Registry](k8s/)
 ## Задания по работе с ML-сервисами
 * [Работа с Yandex Translate через Python](translate-python/)

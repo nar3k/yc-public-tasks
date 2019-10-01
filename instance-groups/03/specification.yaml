@@ -40,7 +40,7 @@ instance_template:
     disk_spec:
       type_id: network-hdd
       size: 10G
-      image_id: fd80m2h15krph9b36mfg  # yc compute image get-latest-from-family container-optimized-image --folder-id standard-images
+      image_id: fd81a49qficqvt0dthu8  # yc compute image get-latest-from-family container-optimized-image --folder-id standard-images
   network_interface_specs:
     - network_id: ${NETWORK_ID}
       primary_v4_address_spec: { one_to_one_nat_spec: { ip_version: IPV4 }}

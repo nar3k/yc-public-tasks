@@ -25,6 +25,8 @@ instance_template:
         containers:
         - image: cr.yandex/yc/demo/load-generator
           name: nginx
+          securityContext:
+            privileged: false
         restartPolicy: Always
   boot_disk_spec:
     mode: READ_WRITE

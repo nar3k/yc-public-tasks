@@ -254,7 +254,7 @@ service_account_id: ajeitnu6otho0ih7ivpk
 
 После этого необходимо проставить в переменную окружения публичный айпи адрес созданной виртуальной машины:
 ```
-PUBLIC_IP=$(yc compute instance get --format=json --folder-id=${FOLDER} --name=coi | jq -r .network_interfaces[0].primary_v4_address.one_to_one_nat.address)
+PUBLIC_IP=$(yc compute instance get --format=json --name=coi | jq -r .network_interfaces[0].primary_v4_address.one_to_one_nat.address)
 ```
 
 Спустя некоторое время (~1 минута), можно проверить что созданный Docker Image запущен и веб приложение работает:

@@ -30,7 +30,11 @@ instance_template:
     docker-container-declaration: |-
       spec:
         containers:
-        - image: cr.yandex/yc/demo/load-generator:v1
+        - image: cr.yandex/yc/demo/web-app:v1
+          securityContext:
+            privileged: false
+          tty: false
+          stdin: false
   boot_disk_spec:
     mode: READ_WRITE
     disk_spec:

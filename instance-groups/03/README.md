@@ -69,7 +69,7 @@ curl "http://$EXTERNAL_IP/burn-cpu?time=30000&load=50"
 ```
 EXTERNAL_IP=$(yc load-balancer network-load-balancer get load-generator --format=json | jq -r .listeners[0].address)
 
-wrk -H "Connection: close" -t12 -c12 -d10m "http://84.201.171.136/burn-cpu?time=5000&load=10"
+wrk -H "Connection: close" -t12 -c12 -d10m "http://$EXTERNAL_IP/burn-cpu?time=5000&load=10"
 ```
 
 Пока скрипт работает, откройте вкладку "Мониторинг" для соответствующей группы инстансов. Вы должны увидеть, как меняется

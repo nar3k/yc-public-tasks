@@ -17,7 +17,7 @@
 
 После этого необходимо проставить в переменную окружения идентификатор созданого folder:
 ```
-$ FOLDER=$(yc config get folder-id)
+FOLDER=$(yc config get folder-id)
 ```
 
 #### Настройка сети
@@ -26,7 +26,7 @@ $ FOLDER=$(yc config get folder-id)
 
 Для создания сети:
 ```
-$ yc vpc network create --name=demo-net
+yc vpc network create --name=demo-net
 ```
 
 Пример вывода команды создания сети:
@@ -40,7 +40,7 @@ name: demo-net
 
 Для создания подсети в default compute zone (zone не указывается): 
 ```
-$ yc vpc subnet create --network-name=demo-net --name=demo-subnet-c --zone=ru-central1-c --range=192.168.0.0/24
+yc vpc subnet create --network-name=demo-net --name=demo-subnet-c --zone=ru-central1-c --range=192.168.0.0/24
 ```
 
 Пример вывода команды создания подсети:
@@ -62,7 +62,7 @@ v4_cidr_blocks:
 
 Для создания service account:
 ```
-$ yc iam service-account create --name=demo-${FOLDER}-sa-puller
+yc iam service-account create --name=demo-${FOLDER}-sa-puller
 ```
 
 Привем вывода команды по созданию service account:
@@ -75,12 +75,12 @@ name: demo-b1g07qkm7vij7am773nd-sa-puller
 
 После этого необходимо проставить в переменную окружения идентификатор созданого service account:
 ```
-$ SA_PULLER=$(yc iam service-account get --name=demo-${FOLDER}-sa-puller --format=json | jq -r .id)
+SA_PULLER=$(yc iam service-account get --name=demo-${FOLDER}-sa-puller --format=json | jq -r .id)
 ```
 
 Для выдачи прав доступа на Registry:
 ```
-$ yc resource-manager folder add-access-binding --id=${FOLDER} --subject=serviceAccount:${SA_PULLER} --role=container-registry.images.puller
+yc resource-manager folder add-access-binding --id=${FOLDER} --subject=serviceAccount:${SA_PULLER} --role=container-registry.images.puller
 ```
 
 ### Настройка работы с приватным Registry
@@ -91,7 +91,7 @@ $ yc resource-manager folder add-access-binding --id=${FOLDER} --subject=service
 
 Для создания приватного Registry:
 ```
-$ yc container registry create --name=demo
+yc container registry create --name=demo
 ```
 
 Пример вывода команды создания приватного Registry:
@@ -106,7 +106,7 @@ created_at: "2019-09-30T11:18:00.085Z"
 
 После этого необходимо проставить в переменную окружения идентификатор созданного приватного Registry:
 ```
-$ REGISTRY=$(yc container registry get --name=demo --format=json | jq -r .id)
+REGISTRY=$(yc container registry get --name=demo --format=json | jq -r .id)
 ```
 
 #### Настройка аутентификации для Docker
@@ -115,7 +115,7 @@ $ REGISTRY=$(yc container registry get --name=demo --format=json | jq -r .id)
 
 Настроить Docker на работу через Docker Cred Helper:
 ```
-$ yc container registry configure-docker
+yc container registry configure-docker
 ```
 
 Пример вывода команды по прописыванию Docker Cred Helper:
@@ -131,12 +131,12 @@ Credential helper is configured in '~/.docker/config.json'
 
 Создаем в рабочей директории место где будет лежать статический контент:
 ```
-$ mkdir html
+mkdir html
 ```
 
 Создаем главную индексную страницу веб приложения (выполняется как одна команда):
 ```
-$ cat <<EOF >html/index.html
+cat <<EOF >html/index.html
 <!DOCTYPE html>
 <html>
   <head>
@@ -151,7 +151,7 @@ EOF
 
 Создаем Dockerfile на базе nginx (выполняется как одна команда):
 ```
-$ cat <<EOF >Dockerfile
+cat <<EOF >Dockerfile
 FROM nginx:1.17
 COPY html /usr/share/nginx/html
 EOF
@@ -161,7 +161,7 @@ EOF
 
 Собираем первую версию Docker Image:
 ```
-$ docker build . -t cr.yandex/${REGISTRY}/demo:v1
+docker build . -t cr.yandex/${REGISTRY}/demo:v1
 ```
 
 Пример вывода команды по сборке Docker Image:
@@ -180,7 +180,7 @@ Successfully tagged cr.yandex/crplb12okm2i8me8u94f/demo:v1
 
 Публикация Docker Image в приватном Registry:
 ```
-$ docker push cr.yandex/${REGISTRY}/demo:v1
+docker push cr.yandex/${REGISTRY}/demo:v1
 ```
 
 Пример вывода команды публикации Docker Image:
@@ -237,12 +237,12 @@ service_account_id: ajeitnu6otho0ih7ivpk
 
 После этого необходимо проставить в переменную окружения публичный айпи адрес созданной виртуальной машины:
 ```
-$ PUBLIC_IP=$(yc compute instance get --format=json --folder-id=${FOLDER} --name=coi | jq -r .network_interfaces[0].primary_v4_address.one_to_one_nat.address)
+PUBLIC_IP=$(yc compute instance get --format=json --folder-id=${FOLDER} --name=coi | jq -r .network_interfaces[0].primary_v4_address.one_to_one_nat.address)
 ```
 
 Спустя некоторое время (~1 минута), можно проверить что созданный Docker Image запущен и веб приложение работает:
 ```
-$ curl "http://${PUBLIC_IP}/"
+curl "http://${PUBLIC_IP}/"
 ```
 
 Пример вывода команды когда веб приложение запущено:
@@ -262,7 +262,7 @@ $ curl "http://${PUBLIC_IP}/"
 
 В рабочей директории вносим изменение в индексную страницу (выполняется как одна команда):
 ```
-$ cat <<EOF >html/index.html
+cat <<EOF >html/index.html
 <!DOCTYPE html>
 <html>
   <head>
@@ -277,7 +277,7 @@ EOF
 
 Собираем Docker Image:
 ```
-$ docker build . -t cr.yandex/${REGISTRY}/demo:v2
+docker build . -t cr.yandex/${REGISTRY}/demo:v2
 ```
 
 Пример вывода команды сборки Docker Image:
@@ -294,7 +294,7 @@ Successfully tagged cr.yandex/crp0doirc18q67fhc33h/demo:v2
 
 Публикация измененого Docker Image:
 ```
-$ docker push cr.yandex/${REGISTRY}/demo:v2
+docker push cr.yandex/${REGISTRY}/demo:v2
 ```
 
 Пример вывода команды публикации измененого Docker Image:
@@ -351,7 +351,7 @@ service_account_id: ajer0ul57evo2m4mguvr
 
 Спустя некоторое время (~30 секунд) можно увидеть новую версию веб приложения:
 ```
-$ curl "http://${PUBLIC_IP}/"
+curl "http://${PUBLIC_IP}/"
 ```
 
 Пример вывода команды когда работает новая версия веб приложения:
@@ -371,30 +371,30 @@ $ curl "http://${PUBLIC_IP}/"
 
 Для удаленния виртуальной машины (внимание, данная команда удаляет все виртуальные машины в текущем folder):
 ```
-$ yc compute instance list --format=json | jq -r .[].id | while read id ; do yc compute instance delete $id ; done
+yc compute instance list --format=json | jq -r .[].id | while read id ; do yc compute instance delete $id ; done
 ```
 
 Для удаления созданных Docker Images (внимание, данная команда удаляет все Docker Images в текущем folder):
 ```
-$ yc container image list --format=json | jq -r .[].id | while read id ; do yc container image delete $id ; done
+yc container image list --format=json | jq -r .[].id | while read id ; do yc container image delete $id ; done
 ```
 
 Для удаления приватного Registry (внимание, данная команда удаляет все приватные Registry в текущем folder):
 ```
-$ yc container registry list --format=json | jq -r .[].id | while read id ; do yc container registry delete $id ; done
+yc container registry list --format=json | jq -r .[].id | while read id ; do yc container registry delete $id ; done
 ```
 
 Для удаления service account:
 ```
-$ yc iam service-account delete ${SA_PULLER}
+yc iam service-account delete ${SA_PULLER}
 ```
 
 Для удаления подсетей (внимание, данная команда удаляет все подсети в текущем folder):
 ```
-$ yc vpc subnet list --format=json | jq -r .[].id | while read id ; do yc vpc subnet delete $id ; done
+yc vpc subnet list --format=json | jq -r .[].id | while read id ; do yc vpc subnet delete $id ; done
 ```
 
 Для удаления сети (внимание, данная команда удаляет все сети в текущем folder):
 ```
-$ yc vpc network list --format=json | jq -r .[].id | while read id ; do yc vpc network delete $id ; done
+yc vpc network list --format=json | jq -r .[].id | while read id ; do yc vpc network delete $id ; done
 ```

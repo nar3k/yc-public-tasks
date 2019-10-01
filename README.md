@@ -17,6 +17,7 @@
 * [Работа с KMS](kms/)
 * [Сетевые Сервисы Яндекс.Облака (VPC, Load Balancer и Anti-DDoS) ](vpc/)
 * [Работа с Managed Service for Kubernetes и Container Registry](k8s/)
+* [Работа с Container Registry и Container Optimized Image](container-registry/01)
 ## Задания по работе с ML-сервисами
 * [Работа с Yandex Translate через Python](translate-python/)
 * [Работа с AI OCR](OCR/)

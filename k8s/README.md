@@ -87,7 +87,7 @@ yc container image list
 
 #### Создание группы узлов
 
-Перейдите в веб интерфейс фашего каталога в раздел "Managed Service For Kubernetes". Дождитесь создания кластера - перейдет в статус `Ready` и состояние `Healthy`.
+Перейдите в веб интерфейс вашего каталога в раздел "Managed Service For Kubernetes". Дождитесь создания кластера - он должен перейти в статус `Ready` и состояние `Healthy`.
 Теперь создадим группу узлов
 
 ```
@@ -120,7 +120,7 @@ yc managed-kubernetes cluster get-credentials --external --name k8s-demo
 watch kubectl get nodes
 ```
 Когда команда начнет выводить 2 узла в статусе `Ready`, значит кластер готов для работы. 
-Нажмите завершения команды нажмите `Ctrl`+`C`.
+Нажмите  `Ctrl`+`C` для выхода из режима watch.
 
 
 ### Тестовое приложение
@@ -174,11 +174,11 @@ kubectl apply -f tiller-sa.yaml
 helm init --service-account tiller
 ```
 
-#### Установите Prometheus operator
+#### Установите Prometheus 
 ```
 helm install --name prom stable/prometheus
 ```
-дождитесь, пока все pod-ы не запустятся:
+дождитесь, пока запустятся все pod-ы  :
 ```
 $ kubectl get pods -o wide
 
@@ -229,10 +229,7 @@ prom-prometheus-server-df7c4757b-cdhj8                2/2     Running   0       
 $ kubectl drain NODE_NAME  --ignore-daemonsets
 ```
 
-Не обращайте внимания на ошибку типа
-```
-error: cannot delete DaemonSet-managed Pods (use --ignore-daemonsets to ignore): default/prom-prometheus-node-exporter-5x7gd, kube-system/yc-disk-csi-node-v
-```
+
 
 Понаблюдайте, как pod переназначится на другой узел и, когда он запустится,
 выполните `yc compute disk list` еще раз - вы заметите, что диск с данными переподключился к другому узлу.

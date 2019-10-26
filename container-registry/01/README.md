@@ -75,7 +75,7 @@ v4_cidr_blocks:
 yc iam service-account create --name=demo-${FOLDER}-sa-puller
 ```
 
-Привем вывода команды по созданию service account:
+Пример вывода команды по созданию service account:
 ```
 id: ajeitnu6otho0ih7ivpk
 folder_id: b1g07qkm7vij7am773nd

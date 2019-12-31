@@ -217,7 +217,10 @@ yc compute instance create-with-container --container-image=cr.yandex/${REGISTRY
                                           --service-account-id=${SA_PULLER} \
                                           --create-boot-disk=size=4,type=network-ssd \
                                           --public-ip
+                                          --zone
 ```
+
+Если вы не указали default compute zone при вызове ```yc init```, то команда выше будет завершаться с требованием указать зону. Можно явно указать зону в которой должна быть создана виртуальная машина. Для этого надо добавить параметр ```--zone=ru-central1-c``` в команду выше. В указанном примере ожидается, что у вас существует сеть и подсеть в зоне ```ru-central1-c```.
 
 Пример вывода команды создания виртуальной машины:
 ```

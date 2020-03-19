@@ -94,7 +94,7 @@ Plan: 3 to add, 0 to change, 0 to destroy.
 Дождемся, когда новые узлы добавятся в кластер, и проверим что он работает
 
 ```
-for i in $(terraform output external_ip_addresses | tr -d ','); do  
+for i in $(terraform output -json external_ip_addresses  | jq -r .[0][]); do  
  curl  $i;
 done
 ```

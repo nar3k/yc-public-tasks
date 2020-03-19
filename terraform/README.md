@@ -66,7 +66,7 @@ ssh ubuntu@<IP_ADDRESS>
 ```
 Попробуем сделать в них curl. Сервера должны отвечать своими именами (которые получаются при выводе команды `terraform output hostnames`)
 ```
-for i in $(terraform output external_ip_addresses | tr -d ','); do  
+for i in $(terraform output -json external_ip_addresses  | jq -r .[0][]); do  
  curl $i;
 done
 ```

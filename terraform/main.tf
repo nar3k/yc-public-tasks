@@ -23,7 +23,7 @@ resource "yandex_compute_instance" "node" {
   boot_disk {
     initialize_params {
       image_id = data.yandex_compute_image.base_image.id
-      type     = "network-nvme"
+      type     = "network-ssd"
       size     = "30"
     }
   }

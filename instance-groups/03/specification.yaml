@@ -24,7 +24,7 @@ instance_template:
   platform_id: standard-v1
   resources_spec:
     memory: 2G
-    cores: 1
+    cores: 2
     core_fraction: 100
   metadata:
     docker-container-declaration: |-
@@ -40,7 +40,7 @@ instance_template:
     disk_spec:
       type_id: network-hdd
       size: 10G
-      image_id: fd81a49qficqvt0dthu8  # yc compute image get-latest-from-family container-optimized-image --folder-id standard-images
+      image_id: fd832o8fe1b9t6hhfnmr  # yc compute image get-latest-from-family container-optimized-image --folder-id standard-images
   network_interface_specs:
     - network_id: ${NETWORK_ID}
       primary_v4_address_spec: { one_to_one_nat_spec: { ip_version: IPV4 }}
